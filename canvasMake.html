@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>利用canvas制造一个画布</title>
+</head>
+<style type="text/css">
+	body{
+		margin:0;
+		padding: 0
+	}
+	#canvas{
+		display:block;
+		background: #000;
+		margin: 50px auto;
+</style>
+<body>
+	<canvas id="canvas" width="500" height="500"></canvas>
+	<script type="text/javascript">
+		var Canvas={};
+		Canvas.animate={
+			init:function(){
+			   var canvas=document.getElementById('canvas');
+			   this.cxt=canvas.getContext("2d");
+			   canvas.width=window.innerWidth;
+			   canvas.height=window.innerHeight;
+			   this.cw=canvas.width;
+			   this.ch=canvas.height;
+			   this.num=200;
+			   this.data=[];
+			   for(var i=0;i<this.num;i++){
+                   this.data[i]={
+                   	x:Math.random()*this.cw,
+                   	y:Math.random()*this.ch,
+                   	cx:Math.random()*0.6-0.3,
+                   	cy:Math.random()*0.6-0.3,
+                   }
+                   this.drawCircle(this.data[i].x,this.data[i].y);
+			   }
+			},
+			drawCircle:function(x,y){
+				cxt=this.cxt;
+				
+				cxt.fillStyle="pink";
+				cxt.beginPath();
+				cxt.arc(x,y,1,0,Math.PI*2,false);
+				cxt.closePath();
+				cxt.fill();
+				
+			},
+			moveCircle:function(){
+				var self=this;
+				for(var i=0;i<this.num;i++){
+					self.data[i].x+=this.data[i].cx;
+					self.data[i].y+=this.data[i].cy;
+					this.drawCircle(this.data[i].x,this.data[i].y);
+				}
+			}
+		}
+		Canvas.animate.init();
+		setInterval(function(){
+			Canvas.animate.moveCircle();
+		},13);
+	</script>
+</body>
+</html>
